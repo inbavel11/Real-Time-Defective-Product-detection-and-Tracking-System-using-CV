@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INBA PVT LTD</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    
+        /* General Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #fefeff, #ffffff);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+    
+        h1, h2 {
+            text-align: center;
+            margin: 20px 0;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+    
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+        body.dark-theme .container {
+        background: rgba(0, 0, 0, 0.5); /* Darker container background */
+        box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1); /* Light shadow for dark theme */
+    }
+    .theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #f3f3f3;
+        border: none;
+        padding: 10px;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+        transform: scale(1.1);
+        background: #ffcc00;
+    }
+
+    body.dark-theme .theme-toggle {
+        background: #444; /* Darker toggle button for dark theme */
+    }
+        /* Navigation Buttons */
+        .nav-button {
+            position: fixed;
+            font-size: 40px;
+            cursor: pointer;
+            z-index: 1000;
+            color: #fff;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+    
+        .nav-button.left {
+            left: 10px;
+        }
+    
+        .nav-button.right {
+            right: 10px;
+        }
+    
+        .nav-button:hover {
+            transform: scale(1.2);
+            color: #ffcc00;
+        }
+    
+        /* Slideshow */
+        .slideshow-container {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            position: relative;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+    
+        .slideshow {
+            display: flex;
+            animation: slideShow 8s infinite;
+        }
+        body.dark-theme {
+        background: linear-gradient(135deg, #1e1e1e, #2a2a2a); /* Dark gradient background */
+        color: #fff; /* Light text color for dark theme */
+    }
+        .slideshow img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+    
+        @keyframes slideShow {
+            0%, 25% { transform: translateX(0); }
+            33%, 58% { transform: translateX(-100%); }
+            66%, 91% { transform: translateX(-200%); }
+            100% { transform: translateX(-300%); }
+        }
+    
+        /* Dashboard Charts */
+        .chart-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    gap: 20px; /* Add spacing between items */
+}
+
+.chart-item {
+    flex: 1 1 calc(50% - 20px);
+    max-width: 48%;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    text-align: center; /* Center content inside the chart item */
+}
+    
+        canvas {
+            width: 400px;
+            height: 200px;
+        }
+    
+        /* Recent Defects Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+    
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+    
+        th {
+            background: rgba(255, 255, 255, 0.2);
+            font-weight: bold;
+        }
+    
+        tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.1);
+        }
+    
+        tr:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transition: background 0.3s ease;
+        }
+    
+        /* Live Stream Button */
+        .live-stream-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #e63946;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            animation: pulse 1.5s infinite;
+            transition: transform 0.3s ease;
+        }
+    
+        .live-stream-button:hover {
+            transform: scale(1.1);
+        }
+    
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 10px rgba(230, 57, 70, 0.5); }
+            50% { transform: scale(1.1); box-shadow: 0 0 20px rgba(230, 57, 70, 0.7); }
+            100% { transform: scale(1); box-shadow: 0 0 10px rgba(230, 57, 70, 0.5); }
+        }
+    
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #f3f3f3;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+    
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            background: #ffcc00;
+        }
+    
+        /* Clock and Date */
+        #currentTime {
+            font-size: 93px;
+            font-weight: bold;
+            color: #ffcc00;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+    
+        #currentDate {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .amulu-conveyors {
+        font-size: 36px;
+        font-weight: bold;
+        color: #ffcc00; /* Gold color for a premium look */
+        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Add a shadow for depth */
+        background: linear-gradient(135deg, #18c474, #23fcb4); /* Gradient background */
+        padding: 20px 40px; /* Add padding for spacing */
+        border-radius: 10px; /* Rounded corners */
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Add a shadow for elevation */
+        text-align: center; /* Center the text */
+        margin: 20px auto; /* Add spacing around the element */
+        width: fit-content; /* Adjust width to fit the content */
+        animation: fadeIn 1.5s ease-in-out; /* Smooth fade-in animation */
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    /* Table Container */
+    .table-container {
+        overflow-x: auto; /* Add horizontal scrolling for smaller screens */
+        margin-top: 20px;
+        color: #23fcb4;
+    }
+
+    /* Table Styling */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Add shadow for elevation */
+    }
+
+    th, td {
+        padding: 12px 15px; /* Add padding for spacing */
+        text-align: center;
+        border: 1px solid rgba(0, 0, 0, 0.2); /* Light border for separation */
+        color: #f6f6f6; /* White text for better contrast */
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* Add shadow for depth */
+        font-size: 14px; /* Adjust font size */
+    }
+
+    th {
+        background: rgba(255, 255, 255, 0.2); /* Slightly darker background for headers */
+        font-weight: bold;
+        text-transform: uppercase; /* Make header text uppercase */
+        color: #ffcc00; /* Highlight header text with gold color */
+    }
+
+    tr:nth-child(even) {
+        background: rgba(255, 255, 255, 0.1); /* Alternate row background */
+    }
+
+    tr:hover {
+        background: rgba(255, 255, 255, 0.2); /* Highlight row on hover */
+        transition: background 0.3s ease; /* Smooth transition effect */
+    }
+
+    /* Responsive Font */
+    @media (max-width: 768px) {
+        th, td {
+            font-size: 12px; /* Adjust font size for smaller screens */
+        }
+    }
+    .nav-button {
+        position: fixed;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        cursor: pointer;
+        z-index: 1000;
+        color: #fff;
+        background: #007bff; /* Default background color */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .nav-button.left {
+        left: 10px;
+    }
+
+    .nav-button.right {
+        right: 10px;
+    }
+
+    .nav-button:hover {
+        transform: scale(1.2);
+        background: #0056b3; /* Darker blue on hover */
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Individual Button Colors */
+    .nav-button:nth-child(1) { background: #6c757d; } /* Settings - Gray */
+    .nav-button:nth-child(2) { background: #17a2b8; } /* Chatbot - Cyan */
+    .nav-button:nth-child(3) { background: #28a745; } /* Contact Us - Green */
+    .nav-button:nth-child(4) { background: #ffc107; } /* Chocolate - Yellow */
+    .nav-button:nth-child(5) { background: #fd7e14; } /* Finance - Orange */
+    .nav-button:nth-child(6) { background: #6610f2; } /* Work - Purple */
+    .nav-button:nth-child(7) { background: #007bff; } /* Forecast - Blue */
+    .nav-button:nth-child(8) { background: #dc3545; } /* History - Red */
+    .nav-button:nth-child(9) { background: #343a40; } /* About Developer - Dark Gray */
+
+    /* Font Awesome Icons */
+    .nav-button i {
+        color: #fff;
+    }
+    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <button class="theme-toggle" id="themeToggle">🌙</button>
+    <div class="amulu-conveyors">INBA PVT LTD</div>
+    <div class="nav-button left" style="top: 50%;" onclick="window.location.href='http://192.168.43.177/'">
+        <i class="fas fa-cogs"></i> <!-- Settings Icon -->
+    </div>
+    <div class="nav-button left" style="top: 60%;" onclick="window.location.href='chatbot.html'">
+        <i class="fas fa-comments"></i> <!-- Chatbot Icon -->
+    </div>
+    <div class="nav-button left" style="top: 70%;" onclick="window.location.href='contactus.html'">
+        <i class="fas fa-phone"></i> <!-- Contact Us Icon -->
+    </div>
+    <div class="nav-button left" style="top: 80%;" onclick="window.location.href='chocolate.html'">
+        <i class="fas fa-candy-cane"></i> <!-- Chocolate Icon -->
+    </div>
+    <div class="nav-button left" style="top: 90%;" onclick="window.location.href='finance.html'">
+        <i class="fas fa-coins"></i> <!-- Finance Icon -->
+    </div>
+    <div class="nav-button right" style="top: 50%;" onclick="window.location.href='work.html'">
+        <i class="fas fa-tools"></i> <!-- Work Icon -->
+    </div>
+    <div class="nav-button right" style="top: 60%;" onclick="window.location.href='forecast.html'">
+        <i class="fas fa-cloud-sun"></i> <!-- Forecast Icon -->
+    </div>
+    <div class="nav-button right" style="top: 70%;" onclick="window.location.href='https://8c2f88d2a505f84e47.gradio.live'">
+    <i class="fas fa-vial"></i> <!-- Model Testing Icon -->
+</div>
+    <div class="nav-button right" style="top: 80%;" onclick="window.location.href='history.html'">
+        <i class="fas fa-history"></i> <!-- History Icon -->
+    </div>
+    <div class="nav-button right" style="top: 90%;" onclick="window.location.href='aboutdev.html'">
+        <i class="fas fa-user"></i> <!-- About Developer Icon -->
+    </div>
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="slideshow-container" style="width: 50%; height: 200px; overflow: hidden; position: relative;">
+            <div class="slideshow" style="width: 100%; height: 100%; display: flex; animation: slideShow 8s infinite;">
+                <img src="image/image1.jpg" alt="Slide 1" style="width: 100%; height: 100%; object-fit: cover; flex-shrink: 0;">
+                <img src="image/image2.jpg" alt="Slide 2" style="width: 100%; height: 100%; object-fit: cover; flex-shrink: 0;">
+                <img src="image/image3.jpg" alt="Slide 3" style="width: 100%; height: 100%; object-fit: cover; flex-shrink: 0;">
+                <img src="image/image4.jpg" alt="Slide 4" style="width: 100%; height: 100%; object-fit: cover; flex-shrink: 0;">
+            </div>
+        </div>
+        <div style="text-align: right; width: 50%;">
+            <div id="currentTime" style="font-size: 93px; font-weight: bold;"></div>
+            <div id="currentDate" style="font-size: 30px; font-weight: bold; margin-bottom: 5px;"></div>
+        </div>
+    </div>
+    <div class="container">
+        <h1>Defect Detection Dashboard</h1>
+    <div class="chart-container">
+        <div class="chart-item">
+            <canvas id="defectTypeChart"></canvas>
+        </div>
+        <div class="chart-item">
+            <canvas id="defectiveVsNonDefectiveChart"></canvas>
+        </div>
+        <div class="chart-item">
+            <canvas id="defectTimelineChart"></canvas>
+        </div>
+        <div class="chart-item">
+            <h3>Today's Defect Analysis</h3>
+            <canvas id="productDefectChart"></canvas>
+        </div>
+    </div>
+    </div>
+    
+<div class="container">
+    <h2>Recent Defect Detections</h2>
+    <div class="table-container">
+        <table id="recentDefectsTable">
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Product ID</th>
+                    <th>Defect Type</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+    <button class="live-stream-button" id="liveStreamButton">🔴 Watch Live Stream</button>
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            themeToggle.textContent = document.body.classList.contains('dark-theme') ? '☀️' : '🌙';
+        });
+
+        const liveStreamButton = document.getElementById('liveStreamButton');
+        liveStreamButton.addEventListener('click', () => {
+            window.location.href = 'ip-video-streaming.html';
+        });
+
+        function updateDateTime() {
+            const now = new Date();
+            const formattedDate = now.toLocaleDateString('en-US', {
+                dateStyle: 'full'
+            });
+            const formattedTime = now.toLocaleTimeString('en-US', {
+                timeStyle: 'medium'
+            });
+            document.getElementById('currentDate').textContent = formattedDate;
+            document.getElementById('currentTime').textContent = formattedTime;
+        }
+        updateDateTime();
+        setInterval(updateDateTime, 1000); // Update every second
+
+        const defectTypeCtx = document.getElementById('defectTypeChart').getContext('2d');
+        const defectiveVsNonDefectiveCtx = document.getElementById('defectiveVsNonDefectiveChart').getContext('2d');
+        const defectTimelineCtx = document.getElementById('defectTimelineChart').getContext('2d');
+        const productDefectCtx = document.getElementById('productDefectChart').getContext('2d');
+
+        let defectTypeChart, defectiveVsNonDefectiveChart, defectTimelineChart, productDefectChart;
+
+        async function fetchData() {
+            try {
+                const response = await fetch('http://localhost:3000/defects');
+                const data = await response.json();
+
+                // Chart 1: Defect Type Distribution
+                const defectTypeCounts = data.reduce((acc, row) => {
+                    acc[row.defect_type] = (acc[row.defect_type] || 0) + 1;
+                    return acc;
+                }, {});
+                const defectTypeLabels = Object.keys(defectTypeCounts);
+                const defectTypeValues = Object.values(defectTypeCounts);
+
+                if (defectTypeChart) defectTypeChart.destroy();
+                defectTypeChart = new Chart(defectTypeCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: defectTypeLabels,
+                        datasets: [{
+                            label: 'Defect Count by Type',
+                            data: defectTypeValues,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: { responsive: true, scales: { y: { beginAtZero: true } } }
+                });
+
+                // Chart 2: Defective vs Non-Defective
+                const defectiveCounts = data.reduce((acc, row) => {
+                    acc[row.defect_status] = (acc[row.defect_status] || 0) + 1;
+                    return acc;
+                }, {});
+                const defectiveLabels = Object.keys(defectiveCounts);
+                const defectiveValues = Object.values(defectiveCounts);
+
+                if (defectiveVsNonDefectiveChart) defectiveVsNonDefectiveChart.destroy();
+                defectiveVsNonDefectiveChart = new Chart(defectiveVsNonDefectiveCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: defectiveLabels,
+                        datasets: [{
+                            label: 'Defective vs Non-Defective',
+                            data: defectiveValues,
+                            backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)'],
+                            borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: { responsive: true }
+                });
+
+                // Chart 3: Defect Timeline
+                const defectTimelineCounts = data.reduce((acc, row) => {
+                    const date = new Date(row.timestamp).toLocaleDateString();
+                    acc[date] = (acc[date] || 0) + 1;
+                    return acc;
+                }, {});
+                const defectTimelineLabels = Object.keys(defectTimelineCounts);
+                const defectTimelineValues = Object.values(defectTimelineCounts);
+
+                if (defectTimelineChart) defectTimelineChart.destroy();
+                defectTimelineChart = new Chart(defectTimelineCtx, {
+                    type: 'line',
+                    data: {
+                        labels: defectTimelineLabels,
+                        datasets: [{
+                            label: 'Defects Over Time',
+                            data: defectTimelineValues,
+                            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                            borderColor: 'rgba(153, 102, 255, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: { responsive: true, scales: { y: { beginAtZero: true } } }
+                });
+               const today = new Date().toLocaleDateString();
+        const todayData = data.filter(row => new Date(row.timestamp).toLocaleDateString() === today);
+
+        // Map defect statuses to numeric values for the Y-axis
+        const defectStatusMapping = { "Defective": 1, "Non-Defective": 2 };
+
+        // Map defect types to unique colors
+        const defectTypeColors = {};
+        let colorIndex = 0;
+        const colorPalette = [
+            'rgba(255, 99, 132, 0.5)', // Red
+            'rgba(54, 162, 235, 0.5)', // Blue
+            'rgba(75, 192, 192, 0.5)', // Green
+            'rgba(255, 206, 86, 0.5)', // Yellow
+            'rgba(153, 102, 255, 0.5)', // Purple
+            'rgba(255, 159, 64, 0.5)'  // Orange
+        ];
+
+        todayData.forEach(row => {
+            if (!defectTypeColors[row.defect_type]) {
+                defectTypeColors[row.defect_type] = colorPalette[colorIndex % colorPalette.length];
+                colorIndex++;
+            }
+        });
+
+        // Prepare scatter chart data
+        const scatterChartData = todayData.map(row => ({
+            x: new Date(row.timestamp).getHours() + new Date(row.timestamp).getMinutes() / 60, // Time in hours
+            y: defectStatusMapping[row.defect_status], // Map defect status to Y-axis
+            defectType: row.defect_type // Include defect type for tooltip
+        }));
+
+        // Destroy the existing chart if it exists
+        if (productDefectChart) productDefectChart.destroy();
+
+        // Create the scatter chart
+        productDefectChart = new Chart(productDefectCtx, {
+            type: 'scatter',
+            data: {
+                datasets: Object.keys(defectTypeColors).map(defectType => ({
+                    label: defectType,
+                    data: scatterChartData.filter(point => point.defectType === defectType),
+                    backgroundColor: defectTypeColors[defectType],
+                    borderColor: defectTypeColors[defectType],
+                    borderWidth: 1,
+                    pointRadius: 5
+                }))
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom',
+                        title: {
+                            display: true,
+                            text: 'Time (Hours)'
+                        },
+                        ticks: {
+                            callback: value => `${Math.floor(value)}:${Math.round((value % 1) * 60).toString().padStart(2, '0')}`
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Defect Status'
+                        },
+                        ticks: {
+                            callback: value => Object.keys(defectStatusMapping).find(key => defectStatusMapping[key] === value)
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: context => {
+                                const defectType = context.dataset.label;
+                                const defectStatus = Object.keys(defectStatusMapping).find(key => defectStatusMapping[key] === context.raw.y);
+                                return `Time: ${context.raw.x.toFixed(2)} hrs, Status: ${defectStatus}, Type: ${defectType}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    
+                
+                const sortedData = data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+const tableBody = document.getElementById('recentDefectsTable').querySelector('tbody');
+tableBody.innerHTML = ''; // Clear existing rows
+
+// Display the top 5 most recent rows
+sortedData.slice(0, 5).forEach(row => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+        <td>${new Date(row.timestamp).toLocaleString()}</td>
+        <td>${row.product_id}</td>
+        <td>${row.defect_type}</td>
+        <td>${row.defect_status}</td>
+    `;
+    tableBody.appendChild(tr);
+});
+}catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        setInterval(fetchData, 3000); // Refresh every 3 seconds
+        fetchData(); // Initial fetch
+    </script>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recent Defects - Inba Pvt Ltd</title>
+<style>
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    color: #333;
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 20px;
+    background: #1976d2;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.animated-header {
+    font-size: 2.5rem;
+    animation: fadeIn 2s ease-in-out;
+}
+
+.animated-subheader {
+    font-size: 1.5rem;
+    animation: fadeIn 3s ease-in-out;
+}
+
+/* Table */
+.styled-table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    animation: slideIn 1s ease-in-out;
+}
+
+.styled-table th, .styled-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.styled-table th {
+    background: #1976d2;
+    color: white;
+    text-transform: uppercase;
+}
+
+.styled-table tr:nth-child(even) {
+    background: #f2f2f2;
+}
+
+.animated-row {
+    animation: fadeIn 1s ease-in-out;
+}
+.download-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    margin: 10px;
+    background: #1976d2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    font-size: 1rem;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.download-btn:hover {
+    background: #1565c0;
+    transform: scale(1.05);
+}
+
+/* Footer */
+
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+</style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+    </head>
+<body>
+    <header>
+        <h1 class="animated-header">Inba Pvt Ltd</h1>
+        <h2 class="animated-subheader">Recent Defects</h2>
+    </header>
+
+    <main>
+        <section>
+            <table id="recentDefectsTable" class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Product ID</th>
+                        <th>Defect Type</th>
+                        <th>Defect Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows will be dynamically populated -->
+                </tbody>
+            </table>
+        </section>
+
+        <section class="download-section">
+            <button id="downloadCsv" class="download-btn">
+                📄 Download CSV
+            </button>
+            <button id="downloadAllPdf" class="download-btn">
+                🖨️ Download PDF
+            </button>
+        </section>
+    </main>
+
+   
+
+    <script>
+        async function fetchAndDisplayData() {
+            try {
+                const response = await fetch('http://localhost:3000/defects');
+                const data = await response.json();
+
+                const sortedData = data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                const tableBody = document.getElementById('recentDefectsTable').querySelector('tbody');
+                tableBody.innerHTML = ''; // Clear existing rows
+
+                // Display the top 10 most recent rows
+                sortedData.slice(0, 10).forEach(row => {
+                    const tr = document.createElement('tr');
+                    tr.classList.add('animated-row'); // Add animation class
+                    tr.innerHTML = `
+                        <td>${new Date(row.timestamp).toLocaleString()}</td>
+                        <td>${row.product_id}</td>
+                        <td>${row.defect_type}</td>
+                        <td>${row.defect_status}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        function downloadCsv(data) {
+            const csvContent = [
+                ['Timestamp', 'Product ID', 'Defect Type', 'Defect Status'],
+                ...data.map(row => [
+                    new Date(row.timestamp).toLocaleString(),
+                    row.product_id,
+                    row.defect_type,
+                    row.defect_status
+                ])
+            ].map(e => e.join(',')).join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'defects.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        async function downloadAllPagesPdf() {
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF();
+
+    // Add title
+    pdf.setFontSize(16);
+    pdf.text('Inba Pvt Ltd', 105, 20, { align: 'center' });
+    pdf.setFontSize(12);
+
+    // Fetch the full dataset
+    const response = await fetch('http://localhost:3000/defects');
+    const data = await response.json();
+
+    // Prepare the dataset for the table
+    const rows = data.map(row => [
+        new Date(row.timestamp).toLocaleString(),
+        row.product_id,
+        row.defect_type,
+        row.defect_status
+    ]);
+
+    // Add dataset table to the PDF
+    pdf.autoTable({
+        head: [['Timestamp', 'Product ID', 'Defect Type', 'Defect Status']],
+        body: rows,
+        startY: 40
+    });
+
+    // Add footer
+    pdf.setFontSize(10);
+    pdf.text('Inbavel.S', 200, pdf.internal.pageSize.height - 10, { align: 'right' });
+
+    // Save the PDF
+    pdf.save('Inba_Pvt_Ltd_Full_Dataset.pdf');
+}
+
+        document.getElementById('downloadCsv').addEventListener('click', async () => {
+            const response = await fetch('http://localhost:3000/defects');
+            const data = await response.json();
+            downloadCsv(data);
+        });
+
+        document.getElementById('downloadAllPdf').addEventListener('click', downloadAllPagesPdf);
+        fetchAndDisplayData();
+    </script>
+</body>
+</html>

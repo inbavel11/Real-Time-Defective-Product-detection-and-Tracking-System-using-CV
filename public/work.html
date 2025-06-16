@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .add-work-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 50px;
+      height: 50px;
+      background-color: #007bff;
+      color: white;
+      font-size: 24px;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      margin: 20px auto;
+      transition: background-color 0.3s ease;
+    }
+    .add-work-btn:hover {
+      background-color: #0056b3;
+    }
+    .form-container {
+      display: none;
+      margin-top: 20px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    select, input, button {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .work-list {
+      margin-top: 20px;
+    }
+    .work-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      animation: fadeIn 0.5s ease;
+    }
+    .status {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .status.completed {
+      color: green;
+    }
+    .status.expired {
+      color: red;
+    }
+    .status.pending {
+      color: orange;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Work Tracker</h1>
+    <div class="work-list" id="workList"></div>
+    <button class="add-work-btn" id="toggleForm">+</button>
+    <div class="form-container" id="formContainer">
+      <form id="workForm">
+        <select id="workType" required>
+          <option value="">Select Work Type</option>
+          <option value="Conveyor Clean">Conveyor Clean</option>
+          <option value="Conveyor Belt">Conveyor Belt</option>
+          <option value="Wood Replace">Wood Replace</option>
+          <option value="Software Update">Software Update</option>
+        </select>
+        <input type="datetime-local" id="deadline" required>
+        <button type="submit">Add Work</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const workForm = document.getElementById('workForm');
+    const workList = document.getElementById('workList');
+    const toggleFormButton = document.getElementById('toggleForm');
+    const formContainer = document.getElementById('formContainer');
+
+    // Toggle the visibility of the form
+    toggleFormButton.addEventListener('click', () => {
+      if (formContainer.style.display === 'none' || formContainer.style.display === '') {
+        formContainer.style.display = 'block';
+        toggleFormButton.textContent = '-';
+      } else {
+        formContainer.style.display = 'none';
+        toggleFormButton.textContent = '+';
+      }
+    });
+
+    // Fetch and display all work tasks
+    function fetchWorkTasks() {
+      fetch('/work-tasks')
+        .then(response => response.json())
+        .then(tasks => {
+          workList.innerHTML = '';
+          tasks.forEach(task => {
+            const workItem = document.createElement('div');
+            workItem.classList.add('work-item');
+            workItem.innerHTML = `
+              <div>
+                <p><strong>Work:</strong> ${task.work_type}</p>
+                <p><strong>Deadline:</strong> ${new Date(task.deadline).toLocaleString()}</p>
+                <p><strong>Status:</strong> <span class="status ${task.status.toLowerCase()}">${task.status}</span></p>
+              </div>
+              <div>
+                <button onclick="updateStatus(${task.id}, 'Completed')">Mark Completed</button>
+                <button onclick="updateStatus(${task.id}, 'Expired')">Mark Expired</button>
+              </div>
+            `;
+            workList.appendChild(workItem);
+          });
+        })
+        .catch(error => console.error('Error fetching tasks:', error));
+    }
+
+    // Add a new work task
+    workForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const workType = document.getElementById('workType').value;
+      const deadline = document.getElementById('deadline').value;
+
+      fetch('/add-work', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ work_type: workType, deadline })
+      })
+        .then(response => response.text())
+        .then(data => {
+          alert(data);
+          fetchWorkTasks(); // Refresh the task list
+          workForm.reset();
+          formContainer.style.display = 'none'; // Hide the form after submission
+          toggleFormButton.textContent = '+';
+        })
+        .catch(error => console.error('Error adding work:', error));
+    });
+
+    // Update the status of a work task
+    function updateStatus(id, status) {
+      fetch(`/update-status/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+      })
+        .then(response => response.text())
+        .then(data => {
+          alert(data);
+          fetchWorkTasks(); // Refresh the task list
+        })
+        .catch(error => console.error('Error updating status:', error));
+    }
+
+    // Fetch tasks on page load
+    fetchWorkTasks();
+  </script>
+</body>
+</html>
