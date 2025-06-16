@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Developer</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .container {
+      text-align: center;
+      padding: 20px;
+      border-radius: 15px;
+      background: linear-gradient(145deg, #ffcc00, #ff9900); /* Yellow and Orange Gradient */
+      box-shadow: 10px 10px 20px #b36b00, -10px -10px 20px #ffd633;
+      max-width: 600px;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+    .photo {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      border: 4px solid #ffcc00;
+      box-shadow: 0 0 20px #ffcc00;
+      animation: glow 2s infinite alternate;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: #ff6f00;
+      text-shadow: 0 0 10px #ffcc00, 0 0 20px #ff9900;
+    }
+    h2 {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      color: #ff6f61;
+    }
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .contact-links a {
+      text-decoration: none;
+      color: #ffffff;
+      font-size: 1.2rem;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: linear-gradient(145deg, #ff9900, #ffcc00);
+      box-shadow: 5px 5px 10px #b36b00, -5px -5px 10px #ffd633;
+      transition: all 0.3s ease;
+    }
+    .contact-links a:hover {
+      background: #ffcc00;
+      color: #121212;
+      box-shadow: 0 0 15px #ffcc00;
+      transform: scale(1.1);
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes glow {
+      from {
+        box-shadow: 0 0 10px #ffcc00;
+      }
+      to {
+        box-shadow: 0 0 30px #ffcc00;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="inba.png" alt="Developer Photo" class="photo">
+    <h1>Inbavel S</h1>
+    <h2>AIML III - Rajalakshmi Engineering College</h2>
+    <div class="contact-links">
+      <a href="https://www.linkedin.com/in/inbavel-s" target="_blank">LinkedIn</a>
+      <a href="https://inbavels.netlify.app/" target="_blank">Website</a>
+      <a href="https://github.com/inbavel11" target="_blank">GitHub</a>
+    </div>
+  </div>
+</body>
+</html>

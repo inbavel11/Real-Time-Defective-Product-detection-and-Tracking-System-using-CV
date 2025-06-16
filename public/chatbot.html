@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural Network Chatbot</title>
+    <style>
+        /* Rotating Background Animation */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #0bff85, #ffffff);
+            background-size: 400% 400%;
+            animation: gradientRotate 10s infinite;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        @keyframes gradientRotate {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Neural Network SVG Animation */
+        #neural-network {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(0deg);
+            width: 80%;
+            height: 80%;
+            opacity: 0.1;
+            animation: rotateModel 20s linear infinite;
+        }
+
+        @keyframes rotateModel {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Chat Container */
+        #chat-container {
+            width: 90%;
+            max-width: 1000px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 80vh;
+            backdrop-filter: blur(10px);
+            z-index: 1;
+        }
+
+        /* Chat Box */
+        #chat-box {
+            flex: 1;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        #chat-box div {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        /* User Message */
+        .user {
+            justify-content: flex-end;
+            color: #007bff;
+        }
+
+        .user span {
+            background: #007bff;
+            color: #fff;
+            padding: 10px;
+            border-radius: 15px;
+            max-width: 70%;
+            word-wrap: break-word;
+            animation: slideInRight 0.5s ease-in-out;
+        }
+
+        /* Bot Message */
+        .bot {
+            justify-content: flex-start;
+            color: #28a745;
+        }
+
+        .bot span {
+            background: #28a745;
+            color: #fff;
+            padding: 10px;
+            border-radius: 15px;
+            max-width: 70%;
+            word-wrap: break-word;
+            animation: slideInLeft 0.5s ease-in-out;
+        }
+
+        /* Icons for User and Bot */
+        .user img, .bot img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 0 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Input and Button */
+        #user-input {
+            width: calc(100% - 100px);
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #e99d04;
+            outline: none;
+            font-size: 26px;
+        }
+
+        #send-btn {
+            padding: 10px 20px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        #send-btn:hover {
+            background: #0056b3;
+            transform: scale(1.1);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <svg id="neural-network" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+        <circle cx="250" cy="250" r="200" stroke="#fff" stroke-width="2" fill="none" />
+        <line x1="250" y1="50" x2="250" y2="450" stroke="#fff" stroke-width="1" />
+        <line x1="50" y1="250" x2="450" y2="250" stroke="#fff" stroke-width="1" />
+        <line x1="100" y1="100" x2="400" y2="400" stroke="#fff" stroke-width="1" />
+        <line x1="400" y1="100" x2="100" y2="400" stroke="#fff" stroke-width="1" />
+        <circle cx="250" cy="250" r="10" fill="#fff" />
+        <circle cx="250" cy="50" r="5" fill="#fff" />
+        <circle cx="250" cy="450" r="5" fill="#fff" />
+        <circle cx="50" cy="250" r="5" fill="#fff" />
+        <circle cx="450" cy="250" r="5" fill="#fff" />
+        <circle cx="100" cy="100" r="5" fill="#fff" />
+        <circle cx="400" cy="400" r="5" fill="#fff" />
+        <circle cx="400" cy="100" r="5" fill="#fff" />
+        <circle cx="100" cy="400" r="5" fill="#fff" />
+    </svg>
+
+    <div id="chat-container">
+        <div id="chat-box"></div>
+        <div style="display: flex;">
+            <input type="text" id="user-input" placeholder="Type your message...">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/compromise@13.11.3/builds/compromise.min.js"></script>
+    <script>
+        let qaData = [];
+
+        async function loadCSV() {
+            try {
+                const response = await fetch('defectchat.csv'); // Ensure qa.csv is in the same directory
+                if (!response.ok) {
+                    console.error("Failed to fetch CSV file:", response.statusText);
+                    return;
+                }
+                const csvText = await response.text();
+                const rows = csvText.split('\n').slice(1); // Skip the header row
+                rows.forEach(row => {
+                    const [Question, Answer] = row.split(',');
+                    if (Question && Answer) {
+                        qaData.push({ question: Question.trim(), answer: Answer.trim() });
+                    }
+                });
+            } catch (error) {
+                console.error("Error loading CSV file:", error);
+            }
+        }
+
+        function getAnswer(userQuestion) {
+            console.log("User Question:", userQuestion); // Log the user's question
+            const customResponses = {
+                hi: "Hello! How can I assist you today?",
+                hello: "Hi there! What can I do for you?",
+                hey: "Hey! How can I help?",
+                bye: "Goodbye! Have a great day!",
+                "thank you": "You're welcome! Let me know if you need anything else."
+            };
+
+            const lowerCaseQuestion = userQuestion.toLowerCase();
+            if (customResponses[lowerCaseQuestion]) {
+                console.log("Matched Custom Response:", customResponses[lowerCaseQuestion]); // Log matched custom response
+                return customResponses[lowerCaseQuestion];
+            }
+
+            const doc = nlp(userQuestion);
+            const keywords = doc.nouns().out('array');
+            console.log("Extracted Keywords:", keywords); // Log the extracted keywords
+            for (const qa of qaData) {
+                const questionDoc = nlp(qa.question);
+                const questionKeywords = questionDoc.nouns().out('array');
+                console.log("Comparing with QA Pair:", qa.question, "Keywords:", questionKeywords); // Log comparison details
+                if (keywords.some(keyword => questionKeywords.includes(keyword))) {
+                    console.log("Matched Answer:", qa.answer); // Log matched answer
+                    return qa.answer;
+                }
+            }
+            console.log("No Match Found. Default Response."); // Log default response case
+            return "Sorry, I don't understand that question.";
+        }
+
+        document.getElementById('send-btn').addEventListener('click', () => {
+            const userInput = document.getElementById('user-input').value.trim();
+            if (userInput) {
+                const chatBox = document.getElementById('chat-box');
+                chatBox.innerHTML += `
+                    <div class="user">
+                        <span>${userInput}</span>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSYGwr-H0K5es9g_WFvTjjbhhsMa6Dn78j8A&s" alt="User">
+                    </div>`;
+                const botResponse = getAnswer(userInput);
+                chatBox.innerHTML += `
+                    <div class="bot">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsVOpoVCX9Bv7fwlHXQtpXhhS_fjWHMoQv5g&s" alt="Bot">
+                        <span>${botResponse}</span>
+                    </div>`;
+                document.getElementById('user-input').value = '';
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        });
+
+        loadCSV();
+    </script>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About the Product - Milky Heart</title>
+  <style>
+    /* Base Styles */
+    body {
+      font-family: 'Poppins', 'Roboto', sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, #fff9c4, #ffe57f);
+      color: #333;
+      text-align: center;
+      animation: fadeIn 2s ease;
+    }
+
+    h1, h2, p {
+      margin: 10px 0;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      animation: fadeSlideDown 1.5s ease forwards;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      color: #f9a825;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      color: #f57f17;
+    }
+
+    p.main-desc {
+      font-size: 1.3rem;
+      color: #555;
+      line-height: 1.8;
+      max-width: 800px;
+      margin: 20px auto 40px;
+      animation: fadeSlideDown 2s ease forwards;
+    }
+
+    /* Product Image */
+    .product-image {
+      width: 90%;
+      max-width: 500px;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      margin: 30px auto;
+      animation: zoomIn 2s ease;
+    }
+
+    .product-image:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Defects Section */
+    h3 {
+      font-size: 2.2rem;
+      color: #ff6f00;
+      margin: 50px 0 20px;
+      position: relative;
+      animation: fadeSlideDown 2s ease forwards;
+    }
+
+    h3::after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: #fdd835;
+      margin: 10px auto 0;
+      border-radius: 2px;
+    }
+
+    .defects-container {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      align-items: center;
+      margin-top: 30px;
+    }
+
+    .defect {
+      display: flex;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      width: 90%;
+      max-width: 1000px;
+      transition: transform 0.3s;
+      animation: slideInUp 1.2s ease forwards;
+    }
+
+    .defect:hover {
+      transform: translateY(-5px);
+    }
+
+    .defect img {
+      width: 300px;
+      height: auto;
+      object-fit: cover;
+      border-right: 2px solid #fdd835;
+    }
+
+    .defect-content {
+      padding: 20px;
+      flex: 1;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .defect-content h4 {
+      font-size: 1.6rem;
+      color: #f57f17;
+      margin-bottom: 10px;
+    }
+
+    .defect-content p {
+      font-size: 1.05rem;
+      color: #444;
+      line-height: 1.5;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes fadeSlideDown {
+      0% {
+        transform: translateY(-20px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideInUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .defect {
+        flex-direction: column;
+      }
+
+      .defect img {
+        width: 100%;
+        border-right: none;
+        border-bottom: 2px solid #fdd835;
+      }
+
+      .defect-content {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>About the Product</h1>
+  <h2>Amulu Aqua</h2>
+
+  <img src="image/good.jpg" alt="Milky Heart" class="product-image">
+
+  <p class="main-desc">
+    The <strong>Amulu Aqua</strong> is a premium water bottled at the source with the utmost care. 
+    Every sip delivers a crisp, clean taste that refreshes your body and mind. 
+    Pure and invigorating, it's hydration redefined — the perfect complement to your everyday moments or luxurious 
+  </p>
+  
+
+  <h3>Defective Images</h3>
+
+  <div class="defects-container">
+
+    <div class="defect">
+      <img src="image/1.jpg" alt="Uneven Shape">
+      <div class="defect-content">
+        <h4>Defect 1: Shape</h4>
+        <p>The Water Bottle has an irregular shape, reducing its visual appeal and uniformity.</p>
+      </div>
+    </div>
+
+    <div class="defect">
+      <img src="image/4.jpg" alt="Melted Without Cover">
+      <div class="defect-content">
+        <h4>Defect 2: capless</h4>
+        <p>Absence of proper packaging has caused the Water Bottle and lose form.</p>
+      </div>
+    </div>
+
+    <div class="defect">
+      <img src="image/3.jpg" alt="Other Chocolate Mixed">
+      <div class="defect-content">
+        <h4>Defect 3: Other Type</h4>
+        <p>Traces of other chocolate types affect the original flavor and quality.</p>
+      </div>
+    </div>
+
+    <div class="defect">
+      <img src="image/2.jpg" alt="Only Cover Without Chocolate">
+      <div class="defect-content">
+        <h4>Defect 4: old</h4>
+        <p>  This defect refers to products that have exceeded their optimal shelf life. 
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

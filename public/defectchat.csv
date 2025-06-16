@@ -1,0 +1,76 @@
+Question,Answer
+What is the main purpose of the system?,To automate defect detection and improve manufacturing efficiency.
+Which technology is used for video streaming?,A webcam with an IP feed.
+What microcontroller is used for control?,NodeMCU.
+What platform is used for UI development?,"HTML, Tailwind CSS, and JavaScript."
+What type of machine learning model is used?,Convolutional Neural Network (CNN).
+Which libraries are used for real-time video processing?,TensorFlow and OpenCV.
+What materials were used to physically build the conveyor model?,Plywood and cardboard.
+Which tool was used to design the conveyor layout?,Canva.
+How is mobile control achieved?,Using the NodeMCU microcontroller linked to a mobile phone.
+Where is product information stored?,In an SQL database.
+What authentication methods are used?,OTP-based email login and fingerprint recognition.
+What domain is restricted for email login?,rajalakshmi.edu.in.
+What type of reports can be generated?,PDF and CSV reports.
+Who receives the automatic reports?,Administrative officers.
+What assists in error handling and assistance?,An NLP-powered chatbot.
+Is there multilingual support?,Yes.
+What feature enhances decision-making?,A financial module for profit and loss calculation.
+Is dark mode supported in the interface?,"Yes, light and dark themes are supported."
+Which protocol is used for email dispatch?,SMTP.
+What type of dashboard is used to display results?,Interactive dashboards with charts and graphs.
+What enhances the system’s security apart from OTP?,Fingerprint recognition.
+What framework is used to build and train the CNN?,TensorFlow.
+Which computer vision library is used?,OpenCV.
+What feature helps detect manufacturing defects without human intervention?,Real-time defect detection using CNN.
+How is the real-time feed accessed by OpenCV?,Through IP camera streaming.
+What does the financial module compute?,Profit and loss.
+How is the UI designed to ensure modern aesthetics?,"Using modern templates with HTML, Tailwind CSS, and JavaScript."
+What is the primary advantage of this system?,"Increased speed, precision, and profitability in manufacturing."
+Is the login restricted to any specific users?,"Yes, only rajalakshmi.edu.in email domain users."
+What role does the chatbot serve?,It assists users and handles errors.
+What happens to defected product data after detection?,It is stored securely in the SQL database.
+Is manual monitoring required after system deployment?,"No, the system is fully automated."
+What format can the generated reports be saved in?,PDF and CSV.
+Can the system send automatic emails?,"Yes, via SMTP."
+Which module allows multilingual interaction?,The multilingual support module.
+Does the system use mobile applications for any controls?,"Yes, for controlling NodeMCU operations."
+What is used to secure report access?,OTP-based login and fingerprint recognition.
+How is video analysis achieved?,Using OpenCV's real-time video feed processing.
+How are themes implemented in the web application?,Through Tailwind CSS and JavaScript.
+Can defect reports be downloaded?,"Yes, as PDF and CSV files."
+What makes the system scalable?,"Integration of IoT, machine learning, and cloud databases."
+What type of datasets were used for CNN training?,Diverse product image datasets with defective and non-defective samples.
+What protocol secures email communication?,SMTP.
+Is there a financial summary generated periodically?,"Yes, using the financial module."
+Which languages is the system UI available in?,Multiple languages through multilingual support.
+Can fingerprint recognition alone grant system access?,"No, it complements OTP-based login."
+Is internet access required for video streaming?,"Yes, for IP feed access."
+What makes defect detection faster?,Real-time video analysis using OpenCV and CNN.
+Is the chatbot AI-based?,"Yes, it uses NLP techniques."
+How many themes are supported in UI?,"Two, light and dark themes."
+Hello! How can I assist you with the defect detection system?,Hello! How can I assist you with the defect detection system?
+Hi there! Need any help regarding the conveyor system?,Hi there! Need any help regarding the conveyor system?
+Hey! Feel free to ask anything about the product detection system.,Hey! Feel free to ask anything about the product detection system.
+Goodbye! Have a great day!,Goodbye! Have a great day!
+See you! Don't hesitate to return if you have more questions.,See you! Don't hesitate to return if you have more questions.
+You're welcome! Happy to assist.,You're welcome! Happy to assist.
+Anytime! Let me know if you need further help.,Anytime! Let me know if you need further help.
+Good morning! How can I help you today?,Good morning! How can I help you today?
+Good night,Good night! See you soon.
+Good afternoon,Good afternoon! Ready to assist you.
+What material is used for conveyor construction?,Plywood and cardboard.
+How is the conveyor belt controlled?,Via NodeMCU and mobile phone control.
+Can I adjust the speed of the conveyor?,"Yes, through mobile application settings linked to NodeMCU."
+Is the conveyor model portable?,"Yes, it is designed to be lightweight and portable."
+How are products placed on the conveyor?,Products are manually placed at the start of the conveyor.
+How is real-time tracking achieved?,By streaming video feed through an IP camera processed with OpenCV.
+What happens when a defect is detected?,The system marks it and stores the information in the SQL database.
+Can I control the conveyor remotely?,"Yes, mobile phone control is available through NodeMCU."
+Is the conveyor system safe?,"Yes, it is designed with safety in mind for educational and industrial demos."
+Is there an automatic stop mechanism?,"Yes, if a major defect is detected, it can trigger a stop signal."
+What powers the conveyor model?,It is powered using a standard DC motor setup controlled by NodeMCU.
+What size is the conveyor belt?,The prototype uses a small-scale belt suitable for demo purposes.
+Can the conveyor detect multiple products at once?,"Yes, if products are spaced properly for the camera view."
+How is alignment maintained?,Proper design and periodic calibration help maintain alignment.
+Is it possible to integrate multiple cameras?,"Yes, the system supports multiple IP feeds if expanded."

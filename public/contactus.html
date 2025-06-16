@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea, button {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+        input, textarea {
+            width: 100%;
+        }
+        button {
+            background: #2575fc;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #6a11cb;
+        }
+        .success, .error {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .success {
+            color: #4caf50;
+        }
+        .error {
+            color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Contact Us</h1>
+        <form id="contactForm" class="mb-8">
+            <input type="text" id="name" name="name" placeholder="Your Name" class="p-2 border border-gray-300 rounded w-full mb-4" required>
+            <input type="email" id="email" name="email" placeholder="Your Email" class="p-2 border border-gray-300 rounded w-full mb-4" required>
+            <textarea id="message" name="message" rows="5" placeholder="Your Message" class="p-2 border border-gray-300 rounded w-full mb-4" required></textarea>
+            <button type="submit" class="bg-blue-500 text-white p-2 rounded w-full">Send Message</button>
+        </form>
+        <div id="responseMessage" class="text-center font-bold"></div>
+    </div>
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/send-message', {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const message = await response.text();
+                const responseMessage = document.getElementById('responseMessage');
+                responseMessage.innerText = message;
+
+                if (response.ok) {
+                    responseMessage.className = 'text-green-500';
+                    this.reset();
+                } else {
+                    responseMessage.className = 'text-red-500';
+                }
+            } catch (error) {
+                const responseMessage = document.getElementById('responseMessage');
+            }
+        });
+    </script>
+</body>
+</html>

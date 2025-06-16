@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Analysis</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #fff9c4, #ffe082); /* Yellow and white gradient */
+            color: #333;
+            text-align: center;
+        }
+
+        h1 {
+            color: #ff6f00; /* Orange-yellow */
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .calculator-theme {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        .calculator-theme h2 {
+            color: #4a148c; /* Dark purple */
+            margin-bottom: 10px;
+        }
+
+        .calculator-theme table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .finance-summary {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .finance-item {
+            flex: 1 1 calc(33% - 20px);
+            max-width: 30%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .finance-item h3 {
+            color: #6a1b9a;
+            margin-bottom: 10px;
+        }
+
+        .finance-item p {
+            font-size: 1.2rem;
+            margin: 5px 0;
+        }
+
+        .calculator {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .calculator input, .calculator button {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 5px;
+        }
+
+        .calculator button {
+            background: #6a1b9a; /* Deep purple */
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .calculator button:hover {
+            background: #4a148c; /* Darker purple */
+        }
+        .chart-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .chart-item {
+            flex: 1 1 calc(50% - 20px);
+            max-width: 48%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        canvas {
+            width: 100%;
+            height: 300px;
+        }
+        .calculator-theme th, .calculator-theme td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        .calculator-theme th {
+            background: #7b1fa2; /* Purple */
+            color: #fff;
+        }
+
+        .calculator-theme td {
+            background: #f3e5f5; /* Light purple */
+        }
+
+        .analysis {
+            margin-top: 20px;
+            text-align: left;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        .analysis h3 {
+            color: #6a1b9a;
+            margin-bottom: 10px;
+        }
+
+        .analysis p {
+            margin: 5px 0;
+        }
+    </style>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+    <h1>Finance Analysis</h1>
+
+    <div class="calculator-theme">
+        <h2>Manufacturing Costs</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Expense Type</th>
+                    <th>Cost (Paisa)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Electricity</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>Labour</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>Resources</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td>Cover</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Other Expenses</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <th>Total Manufacturing Cost</th>
+                    <th>55 Paisa</th>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Defect Losses</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Defect Type</th>
+                    <th>Loss Per Defect (Paisa)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Shape</td>
+                    <td>40</td>
+                </tr>
+                <tr>
+                    <td>Capless</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td>Old</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>Other Type</td>
+                    <td>50</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="finance-summary">
+        <div class="finance-item">
+            <h3>Total Expenses</h3>
+            <p id="totalExpenses">Calculating...</p>
+        </div>
+        <div class="finance-item">
+            <h3>Total Loss</h3>
+            <p id="totalLoss">Calculating...</p>
+        </div>
+        <div class="finance-item">
+            <h3>Total Profit</h3>
+            <p id="totalProfit">Calculating...</p>
+        </div>
+        <div class="finance-item">
+            <h3>Profit-Loss Ratio</h3>
+            <p id="profitLossRatio">Calculating...</p>
+        </div>
+        <div class="finance-item">
+            <h3>Quick Ratio</h3>
+            <p id="quickRatio">Calculating...</p>
+        </div>
+    </div>
+
+   
+    <h1>Finance Analysis</h1>
+
+    <div class="chart-container">
+        <div class="chart-item">
+            <h3>Loss by Defect Type</h3>
+            <canvas id="lossByDefectChart"></canvas>
+        </div>
+        <div class="chart-item">
+            <h3>Profit vs Loss</h3>
+            <canvas id="profitLossChart"></canvas>
+        </div>
+    </div>
+    <div class="analysis">
+        <h3>Financial Ratios and Analysis</h3>
+        <p><strong>Profit Margin:</strong> Calculated based on revenue and total expenses.</p>
+        <p><strong>Break-Even Point:</strong> Number of defect-free chocolates required to cover costs.</p>
+        <p><strong>Cost Per Unit:</strong> 55 Paisa (as calculated above).</p>
+        <p><strong>Loss Analysis:</strong> Losses are calculated based on defect types and their respective costs.</p>
+    </div>
+
+    <script>
+         async function fetchFinanceData1() {
+            try {
+                console.log("Fetching finance data...");
+                const response = await fetch('http://localhost:3000/defects');
+                if (!response.ok) {
+                    console.error(`Error: HTTP status ${response.status}`);
+                    return;
+                }
+                const data = await response.json();
+                console.log("Finance data fetched successfully:", data);
+
+                // Financial Data
+                const manufacturingCost = 55; // Paisa per chocolate
+                const defectLosses = {
+                    shape: 40,
+                    capless: 20,
+                    old: 10,
+                    othertype: 50
+                };
+
+                let totalDefects = 0;
+                let totalLoss = 0;
+
+                const defectCounts = data.reduce((acc, row) => {
+                    acc[row.defect_type] = (acc[row.defect_type] || 0) + 1;
+                    totalDefects++;
+                    totalLoss += defectLosses[row.defect_type] || 0;
+                    return acc;
+                }, {});
+
+                const totalExpenses = totalDefects * manufacturingCost;
+                const totalProfit = totalExpenses - totalLoss;
+                const profitLossRatio = (totalProfit / totalLoss).toFixed(2);
+                const quickRatio = (totalProfit / totalExpenses).toFixed(2);
+
+                // Update UI
+                document.getElementById('totalExpenses').textContent = `${totalExpenses} Paisa`;
+                document.getElementById('totalLoss').textContent = `${totalLoss} Paisa`;
+                document.getElementById('totalProfit').textContent = `${totalProfit} Paisa`;
+                document.getElementById('profitLossRatio').textContent = profitLossRatio;
+                document.getElementById('quickRatio').textContent = quickRatio;
+
+            } catch (error) {
+                console.error('Error fetching finance data:', error);
+            }
+        }
+
+        
+        fetchFinanceData1();
+        setInterval(fetchFinanceData1, 5000); // Update every 5 seconds
+
+        async function fetchDefectData() {
+            try {
+                console.log("Fetching defect data...");
+                const response = await fetch('http://localhost:3000/defects');
+                if (!response.ok) {
+                    console.error(`Error: HTTP status ${response.status}`);
+                    return;
+                }
+                const data = await response.json();
+                console.log("Defect data fetched successfully:", data);
+    
+                // Calculate total losses
+                const defectLosses = {
+    old: 10, // Lowercase keys to match the fetched data
+    capless: 20,
+    othertype: 50,
+    shape: 40
+};
+    
+                let totalLoss = 0;
+data.forEach(defect => {
+    const defectType = defect.defect_type.toLowerCase(); // Ensure case-insensitivity
+    totalLoss += defectLosses[defectType] || 0;
+});
+    
+                console.log(`Total Loss: ${totalLoss} Paisa`);
+            } catch (error) {
+                console.error('Error fetching defect data:', error);
+            }
+        }
+    
+        const lossByDefectCtx = document.getElementById('lossByDefectChart')?.getContext('2d');
+        const profitLossCtx = document.getElementById('profitLossChart')?.getContext('2d');
+    
+        if (!lossByDefectCtx || !profitLossCtx) {
+            console.error("Canvas elements for charts not found. Ensure the canvas IDs are correct.");
+        }
+    
+        let lossByDefectChart, profitLossChart;
+    
+        async function fetchFinanceData() {
+            try {
+                console.log("Fetching finance data...");
+                const response = await fetch('http://localhost:3000/defects');
+                if (!response.ok) {
+                    console.error(`Error: HTTP status ${response.status}`);
+                    return;
+                }
+                const data = await response.json();
+                console.log("Finance data fetched successfully:", data);
+    
+                // Financial Data
+                const manufacturingCost = 55; // Paisa per chocolate
+                const defectLosses = {
+                    shape: 40,
+                    capless: 20,
+                    old: 10,
+                    othertype: 50
+                };
+    
+                let totalDefects = 0;
+                let totalLoss = 0;
+    
+                const defectCounts = data.reduce((acc, row) => {
+                    acc[row.defect_type] = (acc[row.defect_type] || 0) + 1;
+                    totalDefects++;
+                    totalLoss += defectLosses[row.defect_type] || 0;
+                    return acc;
+                }, {});
+    
+                console.log("Defect counts:", defectCounts);
+                console.log("Total defects:", totalDefects);
+                console.log("Total loss:", totalLoss);
+    
+                const defectLabels = Object.keys(defectCounts);
+                const defectValues = Object.values(defectCounts);
+    
+                // Chart 1: Loss by Defect Type
+                if (lossByDefectChart) {
+                    console.log("Destroying existing Loss by Defect chart...");
+                    lossByDefectChart.destroy();
+                }
+                console.log("Creating Loss by Defect chart...");
+                lossByDefectChart = new Chart(lossByDefectCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: defectLabels,
+                        datasets: [{
+                            label: 'Loss by Defect Type (Paisa)',
+                            data: defectLabels.map(type => defectCounts[type] * (defectLosses[type] || 0)),
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.5)',
+                                'rgba(54, 162, 235, 0.5)',
+                                'rgba(255, 206, 86, 0.5)',
+                                'rgba(75, 192, 192, 0.5)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Loss (Paisa)'
+                                }
+                            }
+                        }
+                    }
+                });
+    
+                // Chart 2: Profit vs Loss
+                const totalRevenue = totalDefects * manufacturingCost; // Example revenue calculation
+                const profit = totalRevenue - totalLoss;
+    
+                if (profitLossChart) {
+                    console.log("Destroying existing Profit vs Loss chart...");
+                    profitLossChart.destroy();
+                }
+                console.log("Creating Profit vs Loss chart...");
+                profitLossChart = new Chart(profitLossCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Profit', 'Loss'],
+                        datasets: [{
+                            data: [profit, totalLoss],
+                            backgroundColor: ['rgba(75, 192, 192, 0.5)', 'rgba(255, 99, 132, 0.5)'],
+                            borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: (context) => `${context.label}: ${context.raw} Paisa`
+                                }
+                            }
+                        }
+                    }
+                });
+    
+            } catch (error) {
+                console.error('Error fetching finance data:', error);
+            }
+        }
+    
+        fetchDefectData();
+        fetchFinanceData();
+        setInterval(fetchFinanceData, 5000); // Update every 5 seconds
+
+    </script>
+</body>
+</html
